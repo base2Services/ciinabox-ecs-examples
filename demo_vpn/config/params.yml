@@ -1,0 +1,69 @@
+#ciinabox default config
+ciinabox_name: demo
+
+source_region: us-east-1
+
+aws_profile:
+
+aws_region: us-east-1
+
+aws_account_id: 123456789012
+
+stack_name: ciinabox
+
+#override S3 bucket location
+source_bucket: ciinabox-deployment-5ff99237-edee-43dc-8086-ff3ae8c55085
+
+#change this to your own dns_domain
+#domain needs to be manage via route53 since the cloudformation adds additional records
+dns_domain: demo.ciinabox.net
+
+#Environment Access
+#add list of public IP addresses you want to access the environment from
+#default to public access probably best to change this
+opsAccess:
+  - 10.101.0.0/16
+#add list of public IP addresses for your developers to access the environment
+#default to public access probably best to change this
+devAccess:
+  - 10.100.0.0/16
+
+acm_auto_issue_validate: false
+default_ssl_cert_id: "arn:aws:iam::123456789012:server-certificate/ciinabox"
+include_diind_slave: true
+include_dood_slave: false
+include_bastion_stack: true
+
+
+#add if you want volatile jenkins docker slave -- Note: by default jenkins docker slave mounts /data/jenkins-dind (on host) to /var/lib/docker (on container)
+#volatile_jenkins_slave: true
+
+#add if you want ecs docker volume != 22GB - must be > 22
+#ecs_docker_volume_size: 100
+
+#use this to change volume snapshot for running ciinabox
+#ecs_data_volume_name: "ECSDataVolume2s"
+
+#set the snapshot to restore from
+#ecs_data_volume_snapshot: snap-49e2b3b5
+
+#set the size of the ecs data volume -- NOTE: would take a new volume - i.e. change volume name
+#ecs_data_volume_size: 250
+
+#optional ciinabox name if you need more than one or you want a different name
+#stack_name: ciinabox-tools
+
+#for internal elb for jenkins
+internal_elb: false
+
+# Uncomment below to enable ciinabox environment scheduling
+# times are in UTC
+# scale_up_schedule: 0 7 * * 1-5
+# scale_down_schedule: 0 19 * * *
+
+
+
+# Enbale open VPN
+include_vpn_stack: true
+# open the vpn upd connection port 1194 to all ips
+vpn_udp_public: true
